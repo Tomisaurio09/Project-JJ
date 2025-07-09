@@ -17,6 +17,5 @@ class LoginSchema(BaseModel):
     password: Union[str, float]
 
 class QuestionAnswerSchema(BaseModel):
-    user_id:int
     question_content: Union[str, float]
     answer_content: Union[str, float]
