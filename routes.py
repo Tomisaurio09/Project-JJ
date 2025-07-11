@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify,jsonify, make_response
+from flask import Blueprint, request, jsonify,jsonify, make_response, render_template
 from models import User, Question
 from extensions import db
 from pydantic import ValidationError
@@ -12,6 +12,12 @@ from flask_jwt_extended import (
 from werkzeug.security import generate_password_hash, check_password_hash
 
 blueprint = Blueprint('api', __name__)
+
+@blueprint.route("/")
+def index():
+    return render_template("index.html")
+
+
 
 @blueprint.route("/register", methods=['POST'])
 def register_user():
