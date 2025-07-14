@@ -4,12 +4,10 @@ from flask_jwt_extended import JWTManager
 from datetime import timedelta
 from dotenv import load_dotenv
 import os
-from flask_cors import CORS
 
 def create_app():
     load_dotenv()  # <-- Asegura que se cargue el .env
     app = Flask(__name__)
-    CORS(app)
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
     app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=7)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -21,7 +19,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from routes import blueprint
-    app.register_blueprint(blueprint, url_prefix='/api')
+    from routes import register_blueprints
+    register_blueprints(app)
     
     return app

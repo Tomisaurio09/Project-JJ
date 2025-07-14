@@ -1,6 +1,5 @@
 from pydantic import BaseModel, field_validator
 from typing import Union
-from models import User
 
 class UserSchema(BaseModel):
     username:str
@@ -16,6 +15,14 @@ class LoginSchema(BaseModel):
     username:str
     password: Union[str, float]
 
-class QuestionAnswerSchema(BaseModel):
+class FlashCardSchema(BaseModel):
     question_content: Union[str, float]
     answer_content: Union[str, float]
+
+class FillBlankSchema(BaseModel):
+    sentence: Union[str, float]
+    hidden_word: Union[str, float]
+
+class NotesSchema(BaseModel):
+    title: Union[str, float]
+    content: Union[str, float]
