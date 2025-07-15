@@ -34,7 +34,7 @@ def question_user():
     
 @flashcard_bp.route("/questions", methods=["GET"])
 @jwt_required()
-def get_user_questions():
+def show_user_questions():
     current_user_id = int(get_jwt_identity())
     questions = Flashcard.query.filter_by(user_id=current_user_id).all()
     if not questions:

@@ -39,7 +39,7 @@ def create_notes():
 
 @notes_bp.route("/notes", methods=["GET"])
 @jwt_required
-def get_all_notes():
+def show_all_notes():
     current_user_id = int(get_jwt_identity())
     notes = Notes.query.filter_by(user_id=current_user_id).all()
     if not notes:
@@ -59,7 +59,7 @@ def get_all_notes():
 
 @notes_bp.route("/notes/<id>", methods=["GET"])
 @jwt_required
-def get_one_note(id):
+def show_one_note(id):
     note = Notes.query.filter_by(id=id).first()
 
     if not note:

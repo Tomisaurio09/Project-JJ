@@ -37,7 +37,7 @@ def post_sentence():
 
 @fillblank_bp.route("/fillblanks", methods=["GET"])
 @jwt_required
-def get_sentences():
+def show_sentences():
     current_user_id = int(get_jwt_identity())
     sentences = FillBlank.query.filter_by(user_id=current_user_id).all()
     if not sentences:
