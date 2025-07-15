@@ -52,7 +52,7 @@ def show_user_questions():
     return jsonify(user_questions)
 
 @flashcard_bp.route("/questions/<int:id>", methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def delete_question(id):
     flashcard = Flashcard.query.get(id)
 

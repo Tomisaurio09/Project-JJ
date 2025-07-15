@@ -15,7 +15,7 @@ fillblank_bp =Blueprint('fillblank', __name__)
 # DELETE /fillblanks/<id>
 
 @fillblank_bp.route("/fillblanks", methods=["POST"])
-@jwt_required
+@jwt_required()
 def post_sentence():
     try:
         current_user_id = int(get_jwt_identity())
@@ -36,7 +36,7 @@ def post_sentence():
         return f"An error in the server ocurred, details: {str(e)}",500
 
 @fillblank_bp.route("/fillblanks", methods=["GET"])
-@jwt_required
+@jwt_required()
 def show_sentences():
     current_user_id = int(get_jwt_identity())
     sentences = FillBlank.query.filter_by(user_id=current_user_id).all()
@@ -55,7 +55,7 @@ def show_sentences():
     return jsonify(user_sentences)
 
 @fillblank_bp.route("/fillblanks/<int:id>", methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def delete_sentence(id):
     fill = FillBlank.query.get(id)
 

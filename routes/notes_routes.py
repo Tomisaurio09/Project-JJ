@@ -17,7 +17,7 @@ from flask_jwt_extended import (
 notes_bp = Blueprint("notes", __name__)
 
 @notes_bp.route("/notes", methods=["POST"])
-@jwt_required
+@jwt_required()
 def create_notes():
     try:
         current_user_id = int(get_jwt_identity())
@@ -38,7 +38,7 @@ def create_notes():
         return f"An error in the server ocurred, details: {str(e)}",500
 
 @notes_bp.route("/notes", methods=["GET"])
-@jwt_required
+@jwt_required()
 def show_all_notes():
     current_user_id = int(get_jwt_identity())
     notes = Notes.query.filter_by(user_id=current_user_id).all()
@@ -58,7 +58,7 @@ def show_all_notes():
     return jsonify(user_notes)
 
 @notes_bp.route("/notes/<id>", methods=["GET"])
-@jwt_required
+@jwt_required()
 def show_one_note(id):
     note = Notes.query.filter_by(id=id).first()
 
@@ -76,7 +76,7 @@ def show_one_note(id):
     
 
 @notes_bp.route("/notes/<id>", methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def delete_note(id):
     note = Notes.query.get(id)
 
