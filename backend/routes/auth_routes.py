@@ -1,5 +1,5 @@
-from flask import Blueprint, request, jsonify
-from models import User
+from flask import Blueprint, request, jsonify, render_template
+from models.user import User
 from extensions import db
 from pydantic import ValidationError
 from validation import UserSchema, LoginSchema
@@ -12,6 +12,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 auth_bp = Blueprint('auth', __name__)
 
 #Login system
+
 @auth_bp.route("/register", methods=['POST'])
 def register_user():
     try:
@@ -34,6 +35,7 @@ def register_user():
     
     except Exception as e:
         return f"An error in the server ocurred, details: {str(e)}",500
+
     
 @auth_bp.route("/login", methods=["POST"])
 def login_user():

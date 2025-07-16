@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from models import Notes
+from models.note import Notes
 from extensions import db
 from pydantic import ValidationError
 from validation import NotesSchema

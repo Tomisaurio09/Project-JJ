@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from models import FillBlank
+from models.fillblank import FillBlank
 from extensions import db
 from pydantic import ValidationError
 from validation import FillBlankSchema
