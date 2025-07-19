@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify
 from models.fillblank import FillBlank
 from extensions import db
 from pydantic import ValidationError
@@ -14,7 +14,7 @@ fillblank_bp =Blueprint('fillblank', __name__)
 # GET /fillblanks
 # DELETE /fillblanks/<id>
 
-@fillblank_bp.route("/fillblanks", methods=["POST"])
+@fillblank_bp.route("/create_fillblanks", methods=["POST"])
 @jwt_required()
 def post_sentence():
     try:
@@ -28,20 +28,26 @@ def post_sentence():
         )
         db.session.add(new_sentence)
         db.session.commit()
-        return make_response("Sentence created succesfully", 201)
+        return jsonify({"message": "Sentence created successfully"}), 201
     except ValidationError as e:
-        return f"Invalid data type, details: {e.errors()}", 400
-    
-    except Exception as e:
-        return f"An error in the server ocurred, details: {str(e)}",500
+        return jsonify({
+            "error": "Invalid data type",
+            "details": e.errors()
+        }), 400
 
-@fillblank_bp.route("/fillblanks", methods=["GET"])
+    except Exception as e:
+        return jsonify({
+            "error": "An error occurred on the server",
+            "details": str(e)
+        }), 500
+
+@fillblank_bp.route("/show_fillblanks", methods=["GET"])
 @jwt_required()
 def show_sentences():
     current_user_id = int(get_jwt_identity())
     sentences = FillBlank.query.filter_by(user_id=current_user_id).all()
     if not sentences:
-        return {"message": "No sentences found for this user"}, 404
+        return jsonify({"message": "No sentences found for this user"}), 404
     
     user_sentences = []
 
@@ -54,7 +60,7 @@ def show_sentences():
 
     return jsonify(user_sentences)
 
-@fillblank_bp.route("/fillblanks/<int:id>", methods=["DELETE"])
+@fillblank_bp.route("/delete_fillblanks/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_sentence(id):
     fill = FillBlank.query.get(id)

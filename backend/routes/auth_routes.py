@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify
 from models.user import User
 from extensions import db
 from pydantic import ValidationError
@@ -31,10 +31,16 @@ def register_user():
 
         return jsonify(message="User created successfully"), 201
     except ValidationError as e:
-        return f"Invalid data type, details: {e.errors()}",400
-    
+        return jsonify({
+            "error": "Invalid data type",
+            "details": e.errors()
+        }), 400
+
     except Exception as e:
-        return f"An error in the server ocurred, details: {str(e)}",500
+        return jsonify({
+            "error": "An error occurred on the server",
+            "details": str(e)
+        }), 500
 
     
 @auth_bp.route("/login", methods=["POST"])
@@ -54,6 +60,11 @@ def login_user():
             }), 200
         return jsonify({"error": "Invalid username or password"}), 401
     except ValidationError as e:
-        return {"error":"Invalid input", "details": e.errors()},400
+        return jsonify({
+            "error": "Invalid input",
+            "details": e.errors()
+        }), 400
+
+
 
 

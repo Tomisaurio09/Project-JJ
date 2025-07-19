@@ -3,30 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto JJ-Inicio</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <title>Planet Nellearn - Home</title>
 </head>
 <body>
     <header>
-        <nav>
-            <div>
-                <h1>Aprende Fácil</h1>
+        <nav class="nav-bar">
+            <div class="logo">
+                <h1>🧩Nellearn</h1>
             </div>
-            <ul>
-                <li>Inicio</li>
-                <li>Fill Blank</li>
-                <li>Flashcards</li>
-                <li>Notes</li>
+            <ul class="links-nav">
+                <li><a href="index.html">Main page</a></li>
+                <li><a href="fillblanks.html">Fill Blank</a></li>
+                <li><a href="flashcards.html">Flashcards</a></li>
+                <li><a href="notes.html">Notes</a></li>
             </ul>
-            <div>
-                <button><a href="login.html">Login</a></button>
-                <button><a href="register.html">Register</a></button>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-button">Login</a>
+                <a href="register.html" class="register-button">Register</a>
             </div>
         </nav>
     </header>
 
     <main>
+        <section class="box-container">
+            <h1>¡Bienvenido a Planet Nellearn! 🎓</h1>
+            <h3>Tu nueva forma divertida y simple de estudiar todos los días.</h3>
 
+            <div class="features">
+                <div class="feature-card">
+                    <h2>📝 Notas</h2>
+                    <p>Creá y organizá tus apuntes de forma rápida.</p>
+                </div>
+                <div class="feature-card">
+                    <h2>🧩 Fill the Blank</h2>
+                    <p>Completá oraciones para entrenar tu memoria.</p>
+                </div>
+                <div class="feature-card">
+                    <h2>🧠 Flashcards</h2>
+                    <p>Preguntas y respuestas para memorizar más fácil.</p>
+                </div>
+            </div>
+
+            <div class="cta">
+                <a href="register.html" class="cta-button">¡Comenzá ahora!</a>
+            </div>
+        </section>
     </main>
+
+    <footer>
+        <p style="text-align: center; padding: 1rem;">&copy; 2025 Planet Nellearn. All rights reserved.</p>
+    </footer>
 </body>
 </html>
-

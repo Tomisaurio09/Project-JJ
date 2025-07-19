@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify
 from models.note import Notes
 from extensions import db
 from pydantic import ValidationError
@@ -16,7 +16,7 @@ from flask_jwt_extended import (
 
 notes_bp = Blueprint("notes", __name__)
 
-@notes_bp.route("/notes", methods=["POST"])
+@notes_bp.route("/create_note", methods=["POST"])
 @jwt_required()
 def create_notes():
     try:
@@ -30,20 +30,26 @@ def create_notes():
         )
         db.session.add(new_note)
         db.session.commit()
-        return make_response("Note created succesfully", 201)
+        return jsonify({"message": "Note created succesfully"}), 201
     except ValidationError as e:
-        return f"Invalid data type, details: {e.errors()}",400
-    
-    except Exception as e:
-        return f"An error in the server ocurred, details: {str(e)}",500
+        return jsonify({
+            "error": "Invalid data type",
+            "details": e.errors()
+        }), 400
 
-@notes_bp.route("/notes", methods=["GET"])
+    except Exception as e:
+        return jsonify({
+            "error": "An error occurred on the server",
+            "details": str(e)
+        }), 500
+
+@notes_bp.route("/show_notes", methods=["GET"])
 @jwt_required()
 def show_all_notes():
     current_user_id = int(get_jwt_identity())
     notes = Notes.query.filter_by(user_id=current_user_id).all()
     if not notes:
-        return {"message" : "No notes found for this user"}, 404
+        return jsonify({"message" : "No notes found for this user"}), 404
     
     user_notes =[]
 
@@ -57,7 +63,7 @@ def show_all_notes():
 
     return jsonify(user_notes)
 
-@notes_bp.route("/notes/<id>", methods=["GET"])
+@notes_bp.route("/show_note/<id>", methods=["GET"])
 @jwt_required()
 def show_one_note(id):
     note = Notes.query.filter_by(id=id).first()
@@ -75,7 +81,7 @@ def show_one_note(id):
     return jsonify(note_data)
     
 
-@notes_bp.route("/notes/<id>", methods=["DELETE"])
+@notes_bp.route("/delete_note/<id>", methods=["DELETE"])
 @jwt_required()
 def delete_note(id):
     note = Notes.query.get(id)
@@ -87,7 +93,7 @@ def delete_note(id):
     db.session.commit
     return jsonify({"message": f"Note with ID {id} deleted successfully"}), 200
 
-@notes_bp.route("/notes/<id>", methods=["PUT"])
+@notes_bp.route("/edit_note/<id>", methods=["PUT"])
 @jwt_required()
 def edit_note(id):
     try:
@@ -108,7 +114,13 @@ def edit_note(id):
         return jsonify({"message": "Note updated successfully"}), 200
 
     except ValidationError as e:
-        return jsonify({"error": e.errors()}), 400
+        return jsonify({
+            "error": "Invalid data type",
+            "details": e.errors()
+        }), 400
 
     except Exception as e:
-        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+        return jsonify({
+            "error": "An error occurred on the server",
+            "details": str(e)
+        }), 500
