@@ -16,31 +16,31 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route("/register", methods=['POST'])
 def register_user():
     try:
-        data = request.get_json() #agarra la informacion del usuario
-        user = UserSchema(**data).model_dump() #crea una instancia del usuario y sus datos
+        data = request.get_json()
 
-        #verifica si el usuario ya existe en la database
+        user = UserSchema(**data).model_dump()
+
         if User.query.filter_by(username=user["username"]).first():
-            return jsonify({"error": "Username already exists"}), 400
-        
-        #hashea la contraseña del usuario
+            return jsonify({"error": "Ese nombre de usuario ya está en uso"}), 400
+
         hashed_password = generate_password_hash(user["password"])
         new_user = User(username=user["username"], password=hashed_password)
+
         db.session.add(new_user)
         db.session.commit()
 
-        return jsonify(message="User created successfully"), 201
+        return jsonify({"message": "Usuario creado con éxito"}), 201
+
     except ValidationError as e:
-        return jsonify({
-            "error": "Invalid data type",
-            "details": e.errors()
-        }), 400
+        errores = e.errors()
+        mensaje = errores[0]["msg"].replace("Value error, ", "") if errores else "Datos inválidos"
+        return jsonify({"error": mensaje}), 400
 
     except Exception as e:
         return jsonify({
-            "error": "An error occurred on the server",
-            "details": str(e)
+            "error": "Ocurrió un error en el servidor",
         }), 500
+
 
     
 @auth_bp.route("/login", methods=["POST"])

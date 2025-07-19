@@ -7,7 +7,8 @@ if (registerForm) {
         e.preventDefault();
         const data = {
             username: e.target.username.value,
-            password: e.target.password.value
+            password: e.target.password.value,
+            confirm_password: e.target.confirm_password.value
         };
         const res = await fetch(`${BACKEND_URL}/auth/register`, {
             method: 'POST',
@@ -15,8 +16,15 @@ if (registerForm) {
             body: JSON.stringify(data)
         });
 
-        const json = await res.json();
-        console.log(json);
+        const result = await res.json();
+        const errorBox = document.getElementById("error-message");
+        if (!res.ok) {
+            errorBox.textContent = result.error || "Error al registrarse";
+            errorBox.style.display = "block";
+        } else {
+            // Redirigir a login o mostrar éxito
+            window.location.href = `http://localhost:5500/frontend/templates/login.html`;
+        }
     });
 }
 
