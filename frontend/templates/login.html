@@ -4,14 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
 </head>
-<body>
-    <form id="loginForm">
-        <h2>Login into your account</h1>
-        <input name="username" required placeholder="Username...">
-        <input type="password" name="password" required placeholder="Password...">
-        <button>Login</button>
-    </form>
+<body class="index-body">
+    <header>
+        <nav class="nav-bar">
+            <div class="logo">
+                <h1>🧩Nellearn</h1>
+            </div>
+            <ul class="links-nav">
+                <li><a href="index.html">Main page</a></li>
+                <li><a href="fillblanks.html">Fill Blank</a></li>
+                <li><a href="flashcards.html">Flashcards</a></li>
+                <li><a href="notes.html">Notes</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-button">Login</a>
+                <a href="register.html" class="register-button">Register</a>
+            </div>
+        </nav>
+    </header>
+    <section class="body-auth">
+        <div>
+            <form id="loginForm">
+                <h2>Login into your account</h2>
+                <label>Username:</label>
+                <input class="auth-input" name="username" required>
+                <label>Password:</label>
+                <input class="auth-input" type="password" name="password" required>
+                <button class="auth-boton">Login</button>
+                <div id="error-message" class="error-message"></div>
+            </form>
+        </div>
+    </section>
     <script src="../static/auth.js"></script>
+    <footer>
+        <p>&copy; 2025 Planet Nellearn. All rights reserved.</p>
+    </footer>
 </body>
 </html>

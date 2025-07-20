@@ -202,7 +202,7 @@ footer {
 
 /*Register CSS*/
 /* REGISTER */
-.body-register {
+.body-auth {
   flex: 1;
   display: flex;
   align-items: center;
@@ -211,7 +211,7 @@ footer {
 }
 
 
-#registerForm {
+#registerForm, #loginForm {
     background-color: rgba(255, 255, 255, 0.92); /* Blanco translúcido para contraste */
     padding: 2.5rem;
     border-radius: 1.5rem;
@@ -230,6 +230,14 @@ footer {
     font-weight: 400;
 }
 
+#loginForm h2 {
+    margin-bottom: 1.5rem;
+    color: var(--color-acento);
+    font-size: 1.8rem;
+    font-family: 'Archivo Black', sans-serif;
+    font-weight: 400;
+}
+
 #registerForm label {
     display: block;
     margin-top: 1rem;
@@ -238,7 +246,15 @@ footer {
     font-weight: 600;
 }
 
-.register-input {
+#loginForm label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.3rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.auth-input {
     width: 100%;
     padding: 0.7rem;
     border-radius: 8px;
@@ -249,11 +265,11 @@ footer {
     margin-bottom: 1rem;
 }
 
-.register-input:focus {
+.auth-input:focus {
     border-color: var(--color-acento-claro);
 }
 
-.register-boton {
+.auth-boton {
     margin-top: 1rem;
     width: 100%;
     padding: 0.75rem;
@@ -267,7 +283,7 @@ footer {
     transition: background-color 0.3s ease;
 }
 
-.register-boton:hover {
+.auth-boton:hover {
     background-color: var(--color-acento-claro);
 }
 

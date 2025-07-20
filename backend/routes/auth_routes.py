@@ -17,19 +17,26 @@ auth_bp = Blueprint('auth', __name__)
 def register_user():
     try:
         data = request.get_json()
+        user_data = UserSchema(**data).model_dump()
 
-        user = UserSchema(**data).model_dump()
-
-        if User.query.filter_by(username=user["username"]).first():
+        if User.query.filter_by(username=user_data["username"]).first():
             return jsonify({"error": "Ese nombre de usuario ya está en uso"}), 400
 
-        hashed_password = generate_password_hash(user["password"])
-        new_user = User(username=user["username"], password=hashed_password)
+        hashed_password = generate_password_hash(user_data["password"])
+        new_user = User(username=user_data["username"], password=hashed_password)
 
         db.session.add(new_user)
         db.session.commit()
 
-        return jsonify({"message": "Usuario creado con éxito"}), 201
+        #Crear los tokens una vez que el usuario fue creado
+        access_token = create_access_token(identity=str(new_user.id))
+        refresh_token = create_refresh_token(identity=str(new_user.id))
+
+        return jsonify({
+            "message": "Usuario creado con éxito",
+            "access_token": access_token,
+            "refresh_token": refresh_token
+        }), 201
 
     except ValidationError as e:
         errores = e.errors()
@@ -38,7 +45,7 @@ def register_user():
 
     except Exception as e:
         return jsonify({
-            "error": "Ocurrió un error en el servidor",
+            "error": "Ocurrió un error en el servidor"
         }), 500
 
 
@@ -57,12 +64,11 @@ def login_user():
             return jsonify({
                 "access_token": access_token,
                 "refresh_token": refresh_token
-            }), 200
+            }), 201
         return jsonify({"error": "Invalid username or password"}), 401
     except ValidationError as e:
         return jsonify({
-            "error": "Invalid input",
-            "details": e.errors()
+            "error": "Invalid input"
         }), 400
 
 

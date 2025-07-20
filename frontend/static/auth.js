@@ -18,12 +18,18 @@ if (registerForm) {
 
         const result = await res.json();
         const errorBox = document.getElementById("error-message");
+        // fragmento dentro del submit del registerForm
         if (!res.ok) {
             errorBox.textContent = result.error || "Error al registrarse";
             errorBox.style.display = "block";
         } else {
-            // Redirigir a login o mostrar éxito
-            window.location.href = `http://localhost:5500/frontend/templates/login.html`;
+            if (result.access_token) {
+                localStorage.setItem('token', result.access_token);
+                console.log('Token guardado en localStorage');
+                window.location.href = `http://localhost:5500/frontend/templates/notes.html`;
+            } else {
+                window.location.href = `http://localhost:5500/frontend/templates/login.html`;
+            }
         }
     });
 }
@@ -33,7 +39,7 @@ const loginForm = document.getElementById('loginForm');
 if (loginForm) {
     loginForm.addEventListener('submit', async e => {
         e.preventDefault();
-        
+
         const data = {
             username: e.target.username.value,
             password: e.target.password.value
@@ -45,14 +51,23 @@ if (loginForm) {
             body: JSON.stringify(data)
         });
 
-        const json = await res.json();
-        console.log(json); // Aquí te llega { "access_token": "..." }
+        const result = await res.json();
+        const errorBox = document.getElementById("error-message");
 
-        if (json.access_token) {
-            localStorage.setItem('token', json.access_token);
-            console.log('Token guardado en localStorage');
+        if (!res.ok) {
+            errorBox.textContent = result.error || "Error al iniciar sesión";
+            errorBox.style.display = "block";
         } else {
-            console.error('No se recibió token');
+            if (result.access_token) {
+                localStorage.setItem('token', result.access_token);
+                console.log('Token guardado en localStorage');
+                window.location.href = `http://localhost:5500/frontend/templates/notes.html`;
+            } else {
+                errorBox.textContent = "Token no recibido";
+                errorBox.style.display = "block";
+                console.error('No se recibió token');
+            }
         }
     });
 }
+

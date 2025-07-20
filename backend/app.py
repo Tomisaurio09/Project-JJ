@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 def create_app():
     load_dotenv()  # <-- Asegura que se cargue el .env
     app = Flask(__name__)
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1)
     app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=7)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:KOBQSTPpjMGwNnTWboJGBSeIJYLHrFnk@trolley.proxy.rlwy.net:33788/railway"

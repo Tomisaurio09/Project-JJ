@@ -13,6 +13,13 @@ class UserSchema(BaseModel):
         if username.isalpha():
             return username
         raise ValueError(f"El nombre solo debe contener letras, no podés escribir '{username}'")
+    
+    @field_validator('username')
+    @classmethod
+    def validate_name_length(cls, username):
+        if username.isalpha() and len(username) <= 15:
+            return username
+        raise ValueError("El username debe de ser de 15 caracteres como máximo.")
 
     @field_validator('confirm_password')
     @classmethod
