@@ -15,7 +15,7 @@ def create_app():
     
     db.init_app(app)
     jwt.init_app(app)
-    cors.init_app(app)
+    cors.init_app(app, resources={r"/*": {"origins": "http://localhost:5500"}}, supports_credentials=True)
     migrate.init_app(app, db)
 
     from routes import register_blueprints

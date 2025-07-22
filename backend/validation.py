@@ -52,3 +52,13 @@ class FillBlankSchema(BaseModel):
 class NotesSchema(BaseModel):
     title: Union[str, int]
     content: Union[str, int]
+
+class FolderSchema(BaseModel):
+    name: Union[str, int]
+
+    @field_validator('name')
+    @classmethod
+    def validate_name_length(cls, name):
+        if isinstance(name, (str, int)) and len(str(name)) <= 100:
+            return name
+        raise ValueError("El nombre de la carpeta debe de ser de 100 caracteres como máximo.")
